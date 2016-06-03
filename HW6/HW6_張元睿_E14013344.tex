@@ -1,0 +1,358 @@
+\documentclass[12pt,a4paper]{report}
+\title{Optimal Design HW6}
+\usepackage{CJKutf8}
+\usepackage{array,booktabs}
+\usepackage{amsmath}
+\usepackage[table]{xcolor}
+\usepackage{booktabs}
+\usepackage{xcolor,colortbl}
+\usepackage{color}
+\usepackage[document]{ragged2e}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage[space=true]{accsupp}   
+\usepackage{hhline}
+\usepackage{fancybox}
+\usepackage{listings}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\author{機四甲\hspace{5mm}張元睿\hspace{5mm}E14013344}
+\date{\today} 
+\begin{document}
+	\begin{CJK}{UTF8}{bsmi}
+	\maketitle 
+
+{\bf Problem:}\\
+Minimize
+\begin{align*}
+&f=3x_1^2+2x_2^2+5x_3^2-4x_1x_2-2x_1x_3-2x_2x_3\\
+\intertext{Subject to :}
+&3x_1+5x_2+2x_3\geq10\\
+&3x_1+5x_3\leq15\\
+&x_i\geq0; i=1,2,3
+\end{align*}
+
+\begin{enumerate}%[align=left]
+	\item Write standard QP form and show all matrix and vectors.
+\begin{align*}
+	&q(x) = c^Tx+\frac12X^THX \\
+	&A^TX \leq b \\
+	&c=
+	\begin{pmatrix}
+	0\\0\\0
+	\end{pmatrix}\\
+	&H=	
+	\begin{pmatrix}
+	6 &-4 &-2\\
+	-4 &4 &-2\\
+	-2 &-2& 10\\
+	\end{pmatrix}\\
+	&A=
+		\begin{pmatrix}
+		-3& 3 \\
+		-5& 0 \\
+		-2& 5 \\
+		\end{pmatrix}\\
+	&b=
+		\begin{pmatrix}
+		-10 \\
+		15 \\
+		\end{pmatrix}\\
+	&X=
+		\begin{pmatrix}
+		x_1 \\
+		x_2\\
+		x_3\\
+		\end{pmatrix}\\
+		&q(x) =
+		\begin{pmatrix}
+		0 &0& 0
+		\end{pmatrix}
+			\begin{pmatrix}
+			x_1 \\
+			x_2\\
+			x_3\\
+			\end{pmatrix}
+		 +\frac12
+		 \begin{pmatrix}
+		 x_1 &x_2 &x_3
+		 \end{pmatrix}
+		 \begin{pmatrix}
+		 6 &-4 &-2\\
+		 -4 &4 &-2\\
+		 -2 &-2& 10\\
+		 \end{pmatrix}
+			\begin{pmatrix}
+			x_1 \\
+			x_2\\
+			x_3\\
+			\end{pmatrix}\\
+		&\begin{pmatrix}
+			-3& -5 &-2 \\
+			3& 0& 5 \\
+			\end{pmatrix}
+			\begin{pmatrix}
+			x_1 \\
+			x_2\\
+			x_3\\
+			\end{pmatrix}
+			\leq
+			\begin{pmatrix}
+			-10 \\
+			15 \\
+			\end{pmatrix}\\
+		\end{align*}
+		\newpage
+		\item Write KKT conditions and show the linear equations in the form of BX = D \\ \vspace{4mm}
+			$	L = \frac12X^THX+u^T(A^TX+s-b) - \xi ^TX $\\ \vspace{3mm}
+			KKT condition :
+			\begin{enumerate}
+				\item $\partial L/ \partial X = HX + Au - \xi = 0  $
+				\item $A^TX+s-b = 0 $
+				\item $u_i\times s_i = 0;\   i=$ \text{1 to 2 }
+				\item $\xi _i\times x_i = 0;\   i=$ \text{1 to 3 }
+				\item $u_i, s_i \geq 0;\   i=$ \text{1 to 2 }
+				\item $\xi _i, x_i \geq 0;\   i=$ \text{1 to 3 }
+			\end{enumerate}
+			$BX=D$\\
+		$	\begin{pmatrix}
+			H& A& -I&0\\
+			A^T&0&0&I
+			\end{pmatrix}
+				\begin{pmatrix}
+					X\\
+					u\\
+					\xi\\
+					s
+				\end{pmatrix}$
+				$=$
+				$	\begin{pmatrix}
+						0\\
+						b
+					\end{pmatrix}$\\
+			$		 \begin{pmatrix}
+					 	6   & -4  &  -2  &  -3  &   3  &  -1  &   0  &   0   &  0   &  0\\
+					 	-4 &    4   & -2   & -5   &  0 &    0   & -1  &   0   &  0   &  0\\
+					 	-2  &  -2  &  10   &-2  &   5  &   0 &    0   & -1   &  0  &  0\\
+					 	-3 & -5 & -2  & 0  &  0  &  0  &  0 & 0  & 1 & 0\\
+					 	3&0&5&0&0&0&0&0&0&1
+					\end{pmatrix}$
+				$	\begin{pmatrix}
+						x_1\\x_2\\x_3\\
+						u_1\\u_2\\
+						\xi _1\\\xi _2\\\xi _3\\
+						s_1\\s_2
+					\end{pmatrix}$
+					=
+					$	\begin{pmatrix}
+						0\\0\\0\\
+						-10\\15
+						\end{pmatrix}$
+						\newpage
+\item Explain how you calculate the size of B , X , D\\
+\begin{itemize}
+	\item X:
+	X is composed of $x_1,\ x_2,\ x_3,\ u_1,\ u_2 ,\ \xi _1,\ \xi _2 ,\ \xi _3,\ s_1,\ s_2$. So X is a $10\times1$ vector.
+	\item B:
+	The number of columns in B will be the same as the number of rows in X. The number of rows in B depands on the number of rows in H and $A^T$. Since there are 3 rows in H, 2 rows in $A^T$, there will be $3+2=5$ rows in B. Hence, B is a $5\times10$ matrix. 
+	\item D:
+	D will be a $5\times1$ vector owing to B and X.
+\end{itemize}
+\item Apply simplex method and show all iterations (tableau)
+\begin{itemize}
+	\item initial tableau
+		\begin{table}[ht]
+			\resizebox{\textwidth}{!}{
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}%lcc代表三欄，第一欄靠左，二三欄置中，兩旁的直線代表欄與欄間劃上直線
+		\hline  %劃上一條橫線
+	 &x_1&x_2&x_3&x_4&x_5&x_6&x_7&x_8&x_9&x_1_0&Y_1&Y_2&Y_3&Y_4&Y_5&D\\
+ 		 \hline
+	Y_1 & 6    &-4   & -2   & -3  &   3 &   -1 &    0  &   0  &   0  &   0    & 1   &  0   &  0   &  0   &  0  &   0\\\hline  % &代表換欄 \\代表換下一列
+	Y_2  &-4  &  4    &-2  &  -5  &   0  &   0  &  -1   &  0    & 0  &   0   &  0  &   1  &  0   &  0 &    0  &     0 \\\hline
+	 Y_3     &       -2   & -2   & 10    &-2 &    5 &    0  &   0  &  -1 &    0   &  0  &   0  &   0   &  1  &   0 &    0 &      0\\\hline
+	 Y_4           & -3    &-5 &  -2    & 0    & 0&     0  &   0  &   0  &   1 &    0   &  0  &  0    & 0   &  1  &   0   &  -10\\\hline
+	 Y_5        &     3   &  0 &    5 &  0 &  0&    0  & 0&  0  &  0&   1  &   0 &  0  &  0 &0 & 1 &  15\\\hline
+	 artificial cost & 0 & 7 & -9 &  10 &  -8  &  1 &  1  &   1 &   -1 &   -1   &  0    & 0  &   0 &    0    & 0   &   w-5\\\hline
+	\end{tabular}}
+\end{table}
+	\item second tableau
+		\begin{table}[ht]
+			\resizebox{\textwidth}{!}{
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}\hline
+			 &x_1&x_2&x_3&x_4&x_5&x_6&x_7&x_8&x_9&x_1_0&Y_1&Y_2&Y_3&Y_4&Y_5&D\\
+			 \hline
+			 Y_1  & 5.6   & -4.4  &  0    & -3.4   &    4   & -1  &   0 &   -0.2   &  0   &  0   &  1    & 0   &   0.2  &  0  &   0   &    0\\\hline
+			 Y_2   &         -4.4  &   3.6  &  0     &-5.4   &    1  &   0 &   -1  &  -0.2  &   0    & 0   &  0  &   1  &    0.2  &  0  &   0       &0\\\hline
+			 x_3   &  -0.2 &  -0.2 &  1  &   -0.2&   0.5 &  0  & 0  & -0.1  &0  & 0 & 0 & 0  & 0.1&  0 &  0  &  0\\\hline
+			 Y_4  & -3.4  & -5.4  & 0 & -0.4  &  1 & 0 &  0 & -0.2 &   1&  0  & 0&    0 &  0.2 &  1 &  0  &  -10\\\hline
+			 Y_5   &  4  & 1  &0  &    1 & -2.5&    0  &  0&  0.5&  0&    1 &  0 & 0 &  -0.5  & 0   &1 &   15\\\hline
+			 artificial cost & -1.8  & 5.2 &  0  & 8.2&  -3.5 & 1   &  1 &    0.1 &   -1  &  -1  &   0  &   0     & 0.9&    0  &   0 &     w-5\\\hline
+		\end{tabular}}
+	\end{table}
+			\item third tableau
+			\begin{table}[ht]
+				\resizebox{\textwidth}{!}{
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}\hline
+				&x_1&x_2&x_3&x_4&x_5&x_6&x_7&x_8&x_9&x_1_0&Y_1&Y_2&Y_3&Y_4&Y_5&D\\\hline
+				  Y_1   & 23.2 & -18.8 & 0   &   18.2   & 0   &  -1      & 4   &  0.6  &   0  &   0  &   1   &    -4  &  -0.6   & 0    & 0 &      0\\\hline
+				  x_5     &        -4.4  &    3.6   & 0     & -5.4&    1    &  0      &-1  &  -0.2   &  0  &   0 &    0   &     1 &    0.2  &  0  &   0     &  0\\\hline
+				  x_3     &           2   &    -2 &   1   &    2.5  &  0   &   0   &  0.5  &     0 &    0 &    0&     0  &   -0.5   &    0   & 0 &    0   &    0\\\hline
+				  Y_4 &    1  &   -9 &  0  &   5&  0&   0 &  1  &  0&     1  & 0  & 0 &  -1 &  0  & 1 & 0 & -10\\\hline
+				  Y_5 &   -7  &  10& 0 & -12.5 & 0 & 0&  -2.5 &   0 &    0  & 1  & 0&  2.5  &  0  & 0 & 1  & 15\\\hline
+				  artificial cost& -17.2  &17.8 & 0 & -10.7 &  0    &  1 &  -2.5  &  -0.6   & -1  &  -1 &    0 &     3.5 & 1.6 &   0 &  0  &  w-5\\\hline
+		\end{tabular}}
+\end{table}
+		\newpage
+			\item fourth tableau
+		\begin{table}[ht]
+		\resizebox{\textwidth}{!}{
+
+			\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}\hline
+			&x_1&x_2&x_3&x_4&x_5&x_6&x_7&x_8&x_9&x_1_0&Y_1&Y_2&Y_3&Y_4&Y_5&D \\\hline
+				 x_1 &   1 &-0.81034 & 0 & 0.78448&0  & -0.043103 & 0.17241 &  0.025862 &  0 & 0 &  0.043103 &-0.17241 &-0.025862 & 0 &   0  & 0\\\hline
+				 x_5   &  0 &  0.034483 & 0 &  -1.9483 & 1  &  -0.18966   & -0.24138 &-0.086207 & 0  & 0 & 0.18966&  0.24138 &  0.086207    &0 &    0  &   0\\\hline
+				 x_3   &   0  & -0.37931 &1 &  0.93103 & 0 & 0.086207    & 0.15517 & -0.051724 & 0  &   0 &    -0.086207  &  -0.15517  &   0.051724  &  0   &  0 &      0\\\hline
+				 Y_4   &   0   & -8.1897 & 0 & 4.2155 & 0&  0.043103  & 0.82759& -0.025862 &  1 &  0 &-0.043103 & -0.82759 &  0.025862 &  1  &   0  &   -10\\\hline
+				 Y_5 &  0  &  4.3276  & 0  & -7.0086 &0  &-0.30172  & -1.2931 & 0.18103 &  0 &  1 &   0.30172 & 1.2931 & -0.18103&  0  & 1 &     15\\\hline
+				 artificial cost&  0    & 3.8621  & 0 &  2.7931&   0    &   0.25862 &  0.46552   &  -0.15517 &   -1    &-1 &      0.74138  &   0.53448 &      1.1552  &  0   &  0 &   w-5\\\hline
+				  				  
+			\end{tabular}}
+					\end{table}
+	\item fifth tableau
+		\begin{table}[ht]
+			\resizebox{\textwidth}{!}{
+		
+					\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}\hline
+					&x_1&x_2&x_3&x_4&x_5&x_6&x_7&x_8&x_9&x_1_0&Y_1&Y_2&Y_3&Y_4&Y_5&D \\\hline
+					 x_1  &  1 &  -0.81034  &  0   &  0.78448 &   0    & -0.043103& 0.17241  & 0.025862& 0  & 0&   0.043103  & -0.17241& -0.025862& 0 & 0  &    0\\\hline
+					 x_5  &  0 &  0.034483 & 0 & -1.9483& 1 & -0.18966 & -0.24138&-0.086207  & 0 &  0  &   0.18966&  0.24138 &  0.086207 &0 & 0  &  0\\\hline
+					 x_3   &  0  & -0.37931 & 1& 0.93103 & 0  &0.086207  &  0.15517& -0.051724& 0 &  0 &-0.086207 & -0.15517 &   0.051724 &  0 & 0   &   0\\\hline
+					 x_9  & 0 & -8.1897 & 0 &  4.2155 & 0 &  0.043103  &   0.82759 & -0.025862 & 1 &  0 & -0.043103 & -0.82759  &   0.025862 & 1  & 0 & -10\\\hline
+					 Y_5 &  0  &   4.3276 &  0 & -7.0086 & 0 & -0.30172 &   -1.2931 &  0.18103& 0  &  1  &  0.30172& 1.2931   & -0.18103 &  0 &  1  &  15\\\hline
+					 artificial cost &  0    & -4.3276 &   0      &7.0086   & 0     &  0.30172   &   1.2931   &  -0.18103  &  0  &   -1 &      0.69828  &   -0.2931    &    1.181   & 1  &   0 &    w-15\\\hline
+								
+						\end{tabular}}
+					\end{table}
+					
+						\item sixth tableau
+			\begin{table}[ht]
+							\resizebox{\textwidth}{!}{
+								
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}\hline
+			&x_1&x_2&x_3&x_4&x_5&x_6&x_7&x_8&x_9&x_1_0&Y_1&Y_2&Y_3&Y_4&Y_5&D \\\hline
+		  x_1   &   1 &  0 &  0   &  -45  & 23.5  & -4.5 & -5.5   &-2 &  0&      0  &  4.5 &  5.5  &  2  &  0 &   0    &   0\\\hline
+		  x_2  &   0  &  1 & 0  &  -56.5  &  29  &  -5.5   &-7  & -2.5 & 0   &   0  &  5.5   & 7 &  2.5 &   0  &   0 &      0\\\hline
+		  x_3   &   0 &  0  & 1  & -20.5 &  11  &  -2  &  -2.5 &  -1  & 0&     0&    2  &  2.5 &   1 &   0 &    0 &      0\\\hline
+		  x_9    &  0 &  0 &    0   &  -458.5  &   237.5    &  -45  &  -56.5 &   -20.5&    1 &     0 &       45 &   56.5  &  20.5  &  1 &    0  &   -10\\\hline
+		  Y_5  &   0   &  0 &    0     & 237.5    &-125.5 &    23.5  &     29    &   11   & 0    &  1 &    -23.5    & -29 &    -11   & 0    & 1   &   15\\\hline
+		  artificial cost & 0  &   0   &  0   &  -237.5    & 125.5&   -23.5   &   -29    &  -11 &   0 &    -1  &    24.5&      30   &   12&    1&     0   &  w-15
+		  \\\hline
+									
+						\end{tabular}}
+						\end{table}
+						\newpage
+	\item seventh tableau
+	\begin{table}[ht]
+		\resizebox{\textwidth}{!}{
+			
+			\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}\hline
+				&x_1&x_2&x_3&x_4&x_5&x_6&x_7&x_8&x_9&x_1_0&Y_1&Y_2&Y_3&Y_4&Y_5&D \\\hline
+				 x_1  & 1 &  0 & 0 & 0&   0.19029 & -0.083424 &0.045256    & 0.011996 & -0.098146  &   0  &    0.083424  &  -0.045256   & -0.011996 & -0.098146 &  0 &  0.98146\\\hline
+				 x_2  &  0 &   1  &   0 &    0 &    -0.26663   &  0.045256   & -0.037623   &  0.026172 &  -0.12323 &  0&   -0.045256   &  0.037623  &  -0.026172   &  -0.12323   & 0   &   1.2323\\\hline
+				 x_3   &  0&     0   &  1   &  0  &    0.38113 &    0.011996&     0.026172 &   -0.083424  &  -0.044711 &    0    & -0.011996&    -0.026172   &  0.083424&    -0.044711  &  0 &    0.44711\\\hline
+				 x_4  & 0 &  0 &  0& 1 &-0.51799 &  0.098146 & 0.12323  &   0.044711& -0.002181&  0 & -0.098146 & -0.12323 & -0.044711&    -0.002181 &  0  & 0.02181\\\hline
+				 Y_5    &  0&   0 & 0 &  0 & -2.4766  &0.19029   &  -0.26663  &    0.38113&   0.51799 & 1  &  -0.19029 &  0.26663  &   -0.38113  &  0.51799  & 1 &   9.8201\\\hline
+				 artificial cost& 0  & 0 &  0  &  0  & 2.4766 &  -0.19029 &     0.26663   &  -0.38113  &   -0.51799  &  -1  &      1.1903  &    0.73337 &      1.3811 &   0.48201 &  0   &  w-9.8201
+				\\\hline
+				
+			\end{tabular}}
+		\end{table}
+\item final tableau
+
+\begin{table}[ht]
+	
+	\resizebox{\textwidth}{!}{
+		
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}\hline
+			&x_1&x_2&x_3&x_4&x_5&x_6&x_7&x_8&x_9&x_1_0&Y_1&Y_2&Y_3&Y_4&Y_5&D 
+			\\ \hline 
+	
+        \cellcolor{red!60}x_1    &  1  &   0 &    0   &  0  & 0.19029 & -0.083424     & 0.045256 & 0.011996  & -0.098146& 0  & 0.083424&-0.045256  &  -0.011996  & -0.098146 &0    &  \cellcolor{red!60}0.98146\\\hline 
+			  \cellcolor{red!60}x_2  & 0  &  1&   0  &  0   &  -0.26663 & 0.045256  & -0.037623  &   0.026172  & -0.12323& 0 &  -0.045256&   0.037623 & -0.026172   &  -0.12323  &  0  &   \cellcolor{red!60}     1.2323\\\hline 
+			  \cellcolor{red!60}x_3   &0 &  0 &1 & 0 &  0.38113 & 0.011996& 0.026172  & -0.083424 &-0.044711 &   0   &   -0.011996&  -0.026172 &  0.083424   & -0.044711  &  0     & \cellcolor{red!60}   0.44711\\\hline
+			 x_4   & 0 &  0 &  0 &  1  &  -0.51799& 0.098146  &  0.12323  &   0.044711   &-0.002181 &   0     & -0.098146& -0.12323&    -0.044711  &  -0.002181 &   0   &     0.02181\\\hline
+			 x_1_0  &  0 & 0& 0  & 0&   -2.4766  &  0.19029  &  -0.26663   &   0.38113  & 0.51799  &1  & -0.19029  &  0.26663  & -0.38113 &     0.51799  &  1    &     9.8201\\\hline
+			 artificial cost &   0   &  0 &    0  &0   & 0 &  0&    0&           0  &0&    0    &          1       &     1     &       1    &        1    &1 &    w-0
+			\\\hline
+		
+		\end{tabular}}
+	\end{table}	\\
+	the optimum point {\boldmath $(x_1, x_2, x_3)$} is {\boldmath $(0.98146, 1.2323, 0.44711)$}, and the minimum value of the function is {\bf 0.1091}.
+\end{itemize}
+\item Can this problem be solved by directly using the optimality conditions (KKT)? Why?\\ \vspace{2mm}
+Yes, because I have solved this problem by KKT. The optimum point is same as using QP method.The source is below.\\ 
+\newpage
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{green!20},   
+	commentstyle=\color{blue},
+	keywordstyle=\color{red},
+	numberstyle=\tiny\color{gray}\noncopynumber,
+	stringstyle=\color{purple},
+	basicstyle=\ttfamily,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,  
+   	numbers=left,    	           
+	numbersep=4pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,       
+	keepspaces=true,           
+	tabsize=2
+	columns=fullflexible,
+	language={matlab},
+	breakindent=0pt,
+	frame=single,	
+}
+
+
+\newcommand{\noncopynumber}[1]{
+	\BeginAccSupp{method=escape,ActualText={}}
+	#1
+	\EndAccSupp{}
+}
+
+\lstset{style=mystyle}
+
+\begin{lstlisting}[language=matlab, caption=KKT method source code]
+syms x1 x2 x3 s1 s2 g1 g2 u1 u2 L 
+f=3*x1^2+2*x2^2+5*x3^2-4*x1*x2-2*x1*x3-2*x2*x3;
+g1 =-3*x1-5*x2-2*x3+10;
+g2 = 3*x1+5*x3-15;
+L = f + u1*(g1+s1^2) + u2*(g2+s2^2);
+dLdx=gradient(L,[x1 x2 x3]);
+dLdu=gradient(L,[u1 u2]);
+dLds=gradient(L,[s1 s2]);
+[s1,s2,u1,u2,x1,x2,x3] = solve(dLdx(1)==0,dLdx(2)==0,dLdx(3)==0,...
+dLdu(1)==0,dLdu(2)==0,dLds(1)==0,dLds(2)==0);
+i=1;
+for j=1:size(s1,1)
+if isreal(s1(j))&&isreal(s2(j))&&isreal(u1(j))&&isreal(u2(j))...
+&&isreal(x1(j))&&isreal(x2(j))&&isreal(x3(j))...
+&&x1(j)>0&&x2(j)>0&&x3(j)>0&&u1(j)>=0 ...
+&&u2(j)>=0&&s1(j)>=0&&s2(j)>=0
+M(i,:)=[s1(j),s2(j),u1(j),u2(j),x1(j),x2(j),x3(j)];
+i=i+1;
+end
+end
+fprintf('the optimum point (x1, x2, x3) is (%d, %d, %d)\n', ...
+double(M(5)),double(M(6)),double(M(7)));
+F=@(x1,x2,x3) (3*x1^2-4*x1*x2-2*x1*x3+2*x2^2-2*x2*x3+5*x3^2);
+fprintf('the minimum value of f is %d\n', ...
+F(double(M(5)),double(M(6)),double(M(7))));
+\end{lstlisting}
+\end{enumerate}
+\end{CJK}
+\end{document}
